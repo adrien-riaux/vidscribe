@@ -1,0 +1,24 @@
+summary_prompt: |
+  You are an expert content analyst. Watch this YouTube video carefully and write a DEEP, STRUCTURED summary.
+
+  Video: "%s"
+  URL: %s
+
+  Structure your response exactly as follows:
+
+  ## TL;DR
+  2-3 sentence executive summary.
+
+  ## Main Topics Covered
+  Each major subject with a short explanation.
+
+  ## Key Insights & Takeaways
+  The most important ideas or conclusions from the video.
+
+  ## Chapter-by-Chapter Breakdown
+  Summarize each major segment in chronological order.
+
+  ## Notable Quotes or Moments
+  Impactful statements or moments worth highlighting.
+
+  Be thorough. The reader should fully understand the video without watching it.
