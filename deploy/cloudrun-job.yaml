@@ -19,15 +19,15 @@ spec:
                 memory: '512Mi'
             env:
             - name: YOUTUBE_CHANNEL_ID
-              value: "UCkQS_dP6GJTmYnMlox-YiKQ"
+              value: ${YOUTUBE_CHANNEL_ID}
             - name: STATE_BUCKET
               value: "bucket-vidscribe"
             - name: EMAIL_FROM
-              value: "adrien.riaux@gmail.com"
+              value: ${EMAIL_FROM}
             - name: EMAIL_TO
-              value: "adrien.riaux@gmail.com"
+              value: ${EMAIL_TO}
             - name: SMTP_USER
-              value: "adrien.riaux@gmail.com"
+              value: ${EMAIL_FROM}
             - name: YOUTUBE_API_KEY
               valueFrom:
                 secretKeyRef:
