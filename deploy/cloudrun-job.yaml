@@ -1,0 +1,45 @@
+apiVersion: run.googleapis.com/v1
+kind: Job
+metadata:
+  name: job-vidscribe
+  labels:
+    cloud.googleapis.com/location: europe-west1
+spec:
+  template:
+    spec:
+      template:
+        spec:
+          serviceAccountName: vidscribe-job-runner@demo-apps.iam.gserviceaccount.com
+          timeoutSeconds: 600
+          containers:
+          - image: ${IMAGE_URL}
+            resources:
+              limits:
+                cpu: '1'
+                memory: '512Mi'
+            env:
+            - name: YOUTUBE_CHANNEL_ID
+              value: "UCkQS_dP6GJTmYnMlox-YiKQ"
+            - name: STATE_BUCKET
+              value: "bucket-vidscribe"
+            - name: EMAIL_FROM
+              value: "adrien.riaux@gmail.com"
+            - name: EMAIL_TO
+              value: "adrien.riaux@gmail.com"
+            - name: SMTP_USER
+              value: "adrien.riaux@gmail.com"
+            - name: YOUTUBE_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: youtube-api-key-vidscribe
+                  key: "latest"
+            - name: GEMINI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: gemini-api-key-vidscribe
+                  key: "latest"
+            - name: SMTP_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: smtp-password-vidscribe
+                  key: "latest"
