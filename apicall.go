@@ -7,6 +7,8 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"strings"
+	"time"
 
 	"gopkg.in/yaml.v3"
 )
@@ -47,12 +49,21 @@ func getUploadsPlaylistID(apiKey, channelID string) (string, error) {
 		channelID, apiKey,
 	)
 
-	resp, err := http.Get(url)
+	client := &http.Client{Timeout: 10 * time.Second}
+	resp, err := client.Get(url)
 	if err != nil {
 		return "", fmt.Errorf("http get channels: %w", err)
 	}
 
 	defer resp.Body.Close()
+
+	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
+		body, readErr := io.ReadAll(resp.Body)
+		if readErr != nil {
+			return "", fmt.Errorf("channels API non-2xx status %d and failed to read body: %w", resp.StatusCode, readErr)
+		}
+		return "", fmt.Errorf("channels API non-2xx status %d: %s", resp.StatusCode, string(body))
+	}
 
 	var result struct {
 		Items []struct {
@@ -80,12 +91,21 @@ func getLatestVideo(apiKey, playlistID string) (*VideoInfo, error) {
 		playlistID, apiKey,
 	)
 
-	resp, err := http.Get(url)
+	client := &http.Client{Timeout: 10 * time.Second}
+	resp, err := client.Get(url)
 	if err != nil {
 		return nil, fmt.Errorf("http get playlist: %w", err)
 	}
 
 	defer resp.Body.Close()
+
+	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
+		body, readErr := io.ReadAll(resp.Body)
+		if readErr != nil {
+			return nil, fmt.Errorf("playlist API non-2xx status %d and failed to read body: %w", resp.StatusCode, readErr)
+		}
+		return nil, fmt.Errorf("playlist API non-2xx status %d: %s", resp.StatusCode, string(body))
+	}
 
 	var result struct {
 		Items []struct {
@@ -153,6 +173,10 @@ func summarizeVideo(apiKey string, video *VideoInfo) (string, error) {
 	}
 	defer resp.Body.Close()
 	raw, _ := io.ReadAll(resp.Body)
+
+	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
+		return "", fmt.Errorf("gemini non-2xx status %d: %s", resp.StatusCode, strings.TrimSpace(string(raw)))
+	}
 
 	var result struct {
 		Candidates []struct {

@@ -4,7 +4,10 @@ go 1.24.0
 
 require github.com/joho/godotenv v1.5.1
 
-require gopkg.in/yaml.v3 v3.0.1
+require (
+	cloud.google.com/go/storage v1.60.0
+	gopkg.in/yaml.v3 v3.0.1
+)
 
 require (
 	cel.dev/expr v0.24.0 // indirect
@@ -14,7 +17,6 @@ require (
 	cloud.google.com/go/compute/metadata v0.9.0 // indirect
 	cloud.google.com/go/iam v1.5.3 // indirect
 	cloud.google.com/go/monitoring v1.24.3 // indirect
-	cloud.google.com/go/storage v1.60.0 // indirect
 	github.com/GoogleCloudPlatform/opentelemetry-operations-go/detectors/gcp v1.30.0 // indirect
 	github.com/GoogleCloudPlatform/opentelemetry-operations-go/exporter/metric v0.55.0 // indirect
 	github.com/GoogleCloudPlatform/opentelemetry-operations-go/internal/resourcemapping v0.55.0 // indirect
