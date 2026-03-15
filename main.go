@@ -2,7 +2,6 @@ package main
 
 import (
 	"log"
-	"os"
 )
 
 func run(cfg Config) error {
@@ -55,6 +54,5 @@ func main() {
 
 	if err := run(cfg); err != nil {
 		log.Fatalf("Fatal error: %v", err)
-		os.Exit(1)
 	}
 }
