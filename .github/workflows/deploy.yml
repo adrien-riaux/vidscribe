@@ -43,6 +43,7 @@ jobs:
         run: |-
           # Export the variable so envsubst can swap it in the YAML
           export IMAGE_URL="${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.IMAGE }}:${{ github.sha }}"
+          export PROJECT_ID="${{ env.PROJECT_ID }}"
           
           envsubst < deploy/cloudrun-job.yaml > cloudrun-job-deployed.yaml
           
