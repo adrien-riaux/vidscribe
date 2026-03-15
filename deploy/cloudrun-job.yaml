@@ -9,7 +9,7 @@ spec:
     spec:
       template:
         spec:
-          serviceAccountName: vidscribe-job-runner@demo-apps.iam.gserviceaccount.com
+          serviceAccountName: vidscribe-job-runner@${PROJECT_ID}.iam.gserviceaccount.com
           timeoutSeconds: 600
           containers:
           - image: ${IMAGE_URL}
