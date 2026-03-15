@@ -1,0 +1,25 @@
+# Git
+.git/
+.gitignore
+.github/
+
+# Development/Local files
+.env
+logs/
+deploy/
+README.md
+
+# Build outputs
+bin/
+*.exe
+*.test
+*.out
+
+# Docker
+Dockerfile
+.dockerignore
+
+# IDEs and OS files
+.vscode/
+.idea/
+.DS_Store
