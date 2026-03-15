@@ -43,10 +43,8 @@ Vidscribe relies on environment variables for configuration. You can use a local
 
 1. Create a `.env` file at the root of the project with the variables detailed above.
 
-2. Run the application:
-   ```bash
-   go run .
-   ```
+2. Run the application: `go run .`
+
 
 ## Deployment via Google Cloud
 
