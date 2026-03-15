@@ -12,7 +12,7 @@ Vidscribe is a Go-based automation tool designed to monitor a specific YouTube c
 ## Prerequisites
 
 To run or deploy Vidscribe, you will need:
-- Go 1.2x+ installed (for local runs)
+- Go 1.24+ installed (for local runs)
 - Docker (for containerization)
 - A YouTube Data API Key
 - A Google Gemini API Key
@@ -29,7 +29,8 @@ Vidscribe relies on environment variables for configuration. You can use a local
 |---|---|
 | `YOUTUBE_API_KEY` | YouTube Data API key. |
 | `GEMINI_API_KEY` | Google Gemini API key used for summaries. |
-| `CHANNEL_ID` | The YouTube Channel ID you want to monitor. |
+| `YOUTUBE_CHANNEL_ID` | The YouTube Channel ID you want to monitor. |
+| `STATE_FILE` | Folder storage for logs on last run (e.g. logs/last_video.txt) |
 | `STATE_BUCKET` | GCP Storage Bucket to hold the state (used in prod). |
 | `EMAIL_FROM` | The sender email address. |
 | `EMAIL_TO` | The notification recipient email address. |
