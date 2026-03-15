@@ -28,8 +28,8 @@ func saveToFile(video *VideoInfo, summary string) error {
 }
 
 func sendEmail(cfg Config, video *VideoInfo, summary string) error {
-	if cfg.EmailTo == "" || cfg.SMTPUser == "" {
-		log.Println("Email not configured (EMAIL_TO or SMTP_USER missing) — skipping.")
+	if cfg.EmailTo == "" || cfg.EmailFrom == "" || cfg.SMTPUser == "" || cfg.SMTPPassword == "" || cfg.SMTPHost == "" {
+		log.Println("Email not fully configured (EMAIL_TO, EMAIL_FROM, SMTP_USER, SMTP_PASSWORD, or SMTP_HOST missing) — skipping.")
 		return nil
 	}
 
