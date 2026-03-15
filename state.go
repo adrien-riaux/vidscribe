@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"context"
+	"errors"
 	"fmt"
 	"io"
 	"log"
@@ -12,14 +13,15 @@ import (
 	"cloud.google.com/go/storage"
 )
 
-const stateKey = "last_video_id.txt"
-
 func loadLastVideoID(cfg Config) string {
 	if cfg.StateBucket != "" {
-		id, err := readFromGCS(cfg.StateBucket, stateKey)
+		id, err := readFromGCS(cfg.StateBucket, cfg.StateFile)
 		if err != nil {
-			// Object likely doesn't exist yet on first run — that's fine
-			log.Printf("GCS state not found (first run?): %v", err)
+			if errors.Is(err, storage.ErrObjectNotExist) {
+				log.Printf("GCS state not found (first run?): %v", err)
+				return ""
+			}
+			log.Printf("failed to load GCS state: %v", err)
 			return ""
 		}
 		return id
@@ -27,6 +29,11 @@ func loadLastVideoID(cfg Config) string {
 	// Local file fallback
 	data, err := os.ReadFile(cfg.StateFile)
 	if err != nil {
+		if os.IsNotExist(err) {
+			log.Printf("State file not found (first run?): %s", cfg.StateFile)
+			return ""
+		}
+		log.Printf("Error reading state file %s: %v", cfg.StateFile, err)
 		return ""
 	}
 
@@ -35,7 +42,7 @@ func loadLastVideoID(cfg Config) string {
 
 func saveLastVideoID(cfg Config, videoID string) error {
 	if cfg.StateBucket != "" {
-		return writeToGCS(cfg.StateBucket, stateKey, videoID)
+		return writeToGCS(cfg.StateBucket, cfg.StateFile, videoID)
 	}
 
 	if err := os.MkdirAll(filepath.Dir(cfg.StateFile), 0755); err != nil {
